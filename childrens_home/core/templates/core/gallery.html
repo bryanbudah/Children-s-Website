@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<section class="p-12 text-center">
+  <h1 class="text-4xl font-bold mb-6">Our Children's Moments</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+    <img src="images/gallery1.jpg" class="gallery-item">
+    <img src="images/gallery2.jpg" class="gallery-item">
+    <img src="images/gallery3.jpg" class="gallery-item">
+    <img src="images/gallery4.jpg" class="gallery-item">
+    <img src="images/gallery5.jpg" class="gallery-item">
+    <img src="images/gallery6.jpg" class="gallery-item">
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center">
+  <button onclick="prevImage()" class="text-white text-3xl absolute left-10">⬅</button>
+  <img id="lightbox-img" class="max-h-[80%]">
+  <button onclick="nextImage()" class="text-white text-3xl absolute right-10">➡</button>
+  <button onclick="closeLightbox()" class="absolute top-5 right-5 text-white text-2xl">✖</button>
+</div>
+
+<style>
+.gallery-item {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 10px;
+}
+</style>
+
+<script>
+let images = document.querySelectorAll(".gallery-item");
+let current = 0;
+
+images.forEach((img, index) => {
+  img.addEventListener("click", () => {
+    current = index;
+    openLightbox();
+  });
+});
+
+function openLightbox() {
+  document.getElementById("lightbox").classList.remove("hidden");
+  document.getElementById("lightbox-img").src = images[current].src;
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").classList.add("hidden");
+}
+
+function nextImage() {
+  current = (current + 1) % images.length;
+  openLightbox();
+}
+
+function prevImage() {
+  current = (current - 1 + images.length) % images.length;
+  openLightbox();
+}
+</script>
+
+</body>
+</html>
