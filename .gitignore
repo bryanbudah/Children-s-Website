@@ -5,3 +5,6 @@
 __pycache__/
 *.pyc
 venv/
+# Ignore media/uploads (images, files)
+media/
+images/

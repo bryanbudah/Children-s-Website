@@ -10,20 +10,96 @@
 <section class="p-12 text-center">
   <h1 class="text-4xl font-bold mb-6">Our Children's Moments</h1>
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-    <img src="images/gallery1.jpg" class="gallery-item">
-    <img src="images/gallery2.jpg" class="gallery-item">
-    <img src="images/gallery3.jpg" class="gallery-item">
-    <img src="images/gallery4.jpg" class="gallery-item">
-    <img src="images/gallery5.jpg" class="gallery-item">
-    <img src="images/gallery6.jpg" class="gallery-item">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+
+    <!-- Gallery Items -->
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/gideon-karanja-2SW6Rx6bLUg-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Happy Moments</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/richmond-osei-OE52p076YMo-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Learning Together</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/pexels-kema-6862005.jpg" class="gallery-item">
+      <div class="overlay">Play Time</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/giusi-borrasi-x7D77vS_Fqk-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Care & Love</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/bryan-waff-QxDDa5rRC9k-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Smiles</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/bennett-tobias-YMpvL5eAtg0-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Togetherness</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/gabriele-stravinskaite-HqqPqu3uIys-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Fun Moments</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/sneha-cecil-SM1YFmwsEqY-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Education</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/blake-cheek-un5MtX00fKM-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Growth</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/roman-nguyen-lPPkJ4NfQtQ-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Support</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/annie-spratt-cVEOh_JJmEE-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Joy</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/bennett-tobias-nsQDm1nBGIs-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Care</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/annie-spratt-OIuCXxx08yg-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Hope</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/topsphere-media-jLbmY5Zp7UQ-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Community</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/bill-wegener-7MD4DR9jbP0-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Happiness</div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl relative group">
+      <img src="images/annie-spratt-0cgpyigyIkM-unsplash.jpg" class="gallery-item">
+      <div class="overlay">Bright Future</div>
+    </div>
+
   </div>
 </section>
 
 <!-- Lightbox -->
 <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center">
   <button onclick="prevImage()" class="text-white text-3xl absolute left-10">⬅</button>
-  <img id="lightbox-img" class="max-h-[80%]">
+  <img id="lightbox-img" class="max-h-[80%] rounded-lg">
   <button onclick="nextImage()" class="text-white text-3xl absolute right-10">➡</button>
   <button onclick="closeLightbox()" class="absolute top-5 right-5 text-white text-2xl">✖</button>
 </div>
@@ -34,7 +110,31 @@
   height: 250px;
   object-fit: cover;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 12px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* Overlay Caption */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.group:hover .overlay {
+  opacity: 1;
 }
 </style>
 
