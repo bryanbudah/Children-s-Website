@@ -7,10 +7,10 @@ import json
 
 # Home view
 def home(request):
-    return JsonResponse({
-        "message": "Welcome to the Children's Home donation site!"
-    })
+    return render(request, "core/home.html")
 
+def gallery(request):
+    return render(request, "core/gallery.html")
 
 # Donation view
 @csrf_exempt
