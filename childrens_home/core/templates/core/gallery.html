@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,13 @@
 </head>
 <body class="bg-gray-100">
 
+<!-- NAVBAR -->
+<nav class="bg-gray-800 text-white p-4 flex justify-center space-x-6">
+  <a href="{% url 'home' %}" class="hover:text-yellow-400">Home</a>
+  <a href="{% url 'gallery' %}" class="hover:text-yellow-400">Gallery</a>
+  <a href="{% url 'donate' %}" class="hover:text-yellow-400">Donate</a>
+</nav>
+
 <section class="p-12 text-center">
   <h1 class="text-4xl font-bold mb-6">Our Children's Moments</h1>
 
@@ -14,82 +22,82 @@
 
     <!-- Gallery Items -->
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/gideon-karanja-2SW6Rx6bLUg-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/gideon-karanja-2SW6Rx6bLUg-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Happy Moments</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/richmond-osei-OE52p076YMo-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/richmond-osei-OE52p076YMo-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Learning Together</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/pexels-kema-6862005.jpg" class="gallery-item">
+      <img src="{% static 'images/pexels-kema-6862005.jpg' %}" class="gallery-item">
       <div class="overlay">Play Time</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/giusi-borrasi-x7D77vS_Fqk-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/giusi-borrasi-x7D77vS_Fqk-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Care & Love</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/bryan-waff-QxDDa5rRC9k-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/bryan-waff-QxDDa5rRC9k-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Smiles</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/bennett-tobias-YMpvL5eAtg0-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/bennett-tobias-YMpvL5eAtg0-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Togetherness</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/gabriele-stravinskaite-HqqPqu3uIys-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/gabriele-stravinskaite-HqqPqu3uIys-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Fun Moments</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/sneha-cecil-SM1YFmwsEqY-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/sneha-cecil-SM1YFmwsEqY-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Education</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/blake-cheek-un5MtX00fKM-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/blake-cheek-un5MtX00fKM-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Growth</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/roman-nguyen-lPPkJ4NfQtQ-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/roman-nguyen-lPPkJ4NfQtQ-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Support</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/annie-spratt-cVEOh_JJmEE-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/annie-spratt-cVEOh_JJmEE-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Joy</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/bennett-tobias-nsQDm1nBGIs-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/bennett-tobias-nsQDm1nBGIs-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Care</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/annie-spratt-OIuCXxx08yg-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/annie-spratt-OIuCXxx08yg-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Hope</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/topsphere-media-jLbmY5Zp7UQ-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/topsphere-media-jLbmY5Zp7UQ-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Community</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/bill-wegener-7MD4DR9jbP0-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/bill-wegener-7MD4DR9jbP0-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Happiness</div>
     </div>
 
     <div class="overflow-hidden rounded-xl relative group">
-      <img src="images/annie-spratt-0cgpyigyIkM-unsplash.jpg" class="gallery-item">
+      <img src="{% static 'images/annie-spratt-0cgpyigyIkM-unsplash.jpg' %}" class="gallery-item">
       <div class="overlay">Bright Future</div>
     </div>
 
@@ -119,18 +127,14 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
-/* Overlay Caption */
 .overlay {
   position: absolute;
   bottom: 0;
-  left: 0;
   width: 100%;
   padding: 10px;
   background: rgba(0, 0, 0, 0.6);
   color: white;
-  font-size: 14px;
   opacity: 0;
-  transition: opacity 0.3s ease;
 }
 
 .group:hover .overlay {
@@ -139,34 +143,36 @@
 </style>
 
 <script>
-let images = document.querySelectorAll(".gallery-item");
-let current = 0;
+document.addEventListener("DOMContentLoaded", function () {
+  const images = document.querySelectorAll(".gallery-item");
+  let current = 0;
 
-images.forEach((img, index) => {
-  img.addEventListener("click", () => {
-    current = index;
-    openLightbox();
+  images.forEach((img, index) => {
+    img.addEventListener("click", () => {
+      current = index;
+      openLightbox();
+    });
   });
+
+  window.openLightbox = function () {
+    document.getElementById("lightbox").classList.remove("hidden");
+    document.getElementById("lightbox-img").src = images[current].src;
+  };
+
+  window.closeLightbox = function () {
+    document.getElementById("lightbox").classList.add("hidden");
+  };
+
+  window.nextImage = function () {
+    current = (current + 1) % images.length;
+    openLightbox();
+  };
+
+  window.prevImage = function () {
+    current = (current - 1 + images.length) % images.length;
+    openLightbox();
+  };
 });
-
-function openLightbox() {
-  document.getElementById("lightbox").classList.remove("hidden");
-  document.getElementById("lightbox-img").src = images[current].src;
-}
-
-function closeLightbox() {
-  document.getElementById("lightbox").classList.add("hidden");
-}
-
-function nextImage() {
-  current = (current + 1) % images.length;
-  openLightbox();
-}
-
-function prevImage() {
-  current = (current - 1 + images.length) % images.length;
-  openLightbox();
-}
 </script>
 
 </body>
