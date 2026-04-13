@@ -9,7 +9,8 @@ urlpatterns = [
     path("mpesa-donate/", views.donate, name="donate"), 
     path("mpesa/callback/", mpesa_callback, name="mpesa_callback"),
 
- # Placeholder for future Donate Online page
-    path("donate-online/", views.home, name="donate_online"),  # temporary placeholder
+ # Placeholder for future Donate Online page, 
+   path("donate/", views.donate_online, name="donate_online"),# temporary placeholder
+    path("create-checkout-session/", views.create_checkout_session),
 
 ]

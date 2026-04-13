@@ -1,29 +1,47 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseBadRequest
-from .mpesa import MpesaService
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from .mpesa import MpesaService
 import json
+import stripe
 
 
-# Home view
+# 🔑 Stripe Secret Key (replace with your real key later)
+stripe.api_key = "YOUR_SECRET_KEY"
+
+
+# =========================
+# HOME & PAGES
+# =========================
+
 def home(request):
     return render(request, "core/home.html")
+
 
 def gallery(request):
     return render(request, "core/gallery.html")
 
-# Donation view
+
+def donate_online(request):
+    return render(request, "core/donate_online.html")
+
+
+# =========================
+# M-PESA DONATION
+# =========================
+
 @csrf_exempt
 def donate(request):
     if request.method == "POST":
         try:
-            # Handle JSON requests (e.g., from frontend or Postman)
+            # Handle JSON requests
             if request.content_type == "application/json":
                 data = json.loads(request.body)
                 phone = data.get("phone")
                 amount = data.get("amount")
             else:
-                # Handle form submissions (HTML form)
+                # Handle form submissions
                 phone = request.POST.get("phone")
                 amount = request.POST.get("amount")
 
@@ -47,18 +65,51 @@ def donate(request):
             }, status=500)
 
     elif request.method == "GET":
-        # 👉 Show HTML donation page instead of JSON
         return render(request, "donate.html")
 
     return HttpResponseBadRequest("Invalid request method")
 
 
-# M-Pesa callback view
+# =========================
+# STRIPE CARD PAYMENT
+# =========================
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            amount = int(data.get("amount")) * 100  # convert to cents
+
+            session = stripe.checkout.Session.create(
+                payment_method_types=["card"],
+                line_items=[{
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {
+                            "name": "Donation",
+                        },
+                        "unit_amount": amount,
+                    },
+                    "quantity": 1,
+                }],
+                mode="payment",
+                success_url="http://127.0.0.1:8000/",
+                cancel_url="http://127.0.0.1:8000/",
+            )
+
+            return JsonResponse({"id": session.id})
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+
+# =========================
+# M-PESA CALLBACK
+# =========================
+
 @csrf_exempt
 def mpesa_callback(request):
-    """
-    Receives M-Pesa payment responses (STK Push)
-    """
     if request.method == "POST":
         try:
             payload = json.loads(request.body)
@@ -67,7 +118,6 @@ def mpesa_callback(request):
             print(json.dumps(payload, indent=2))
             print("=====================================")
 
-            # OPTIONAL: Extract useful data
             body = payload.get("Body", {})
             stk_callback = body.get("stkCallback", {})
 
@@ -76,8 +126,6 @@ def mpesa_callback(request):
 
             print("Result Code:", result_code)
             print("Result Desc:", result_desc)
-
-            # TODO: Save transaction to database
 
             return JsonResponse({
                 "ResultCode": 0,
