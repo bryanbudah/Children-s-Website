@@ -1,81 +1,103 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Donate - Children's Home</title>
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    .status { margin-top: 20px; font-weight: bold; }
-    .success { color: green; }
-    .error { color: red; }
-    .loading { color: orange; }
-  </style>
+  <title>M-Pesa Donation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-  <h1>Donate to Children's Home</h1>
+<body class="bg-gradient-to-br from-green-100 to-green-300 min-h-screen flex items-center justify-center">
 
-  <form id="donationForm">
-    <label>Phone (2547xxxxxxx):</label><br>
-    <input type="text" id="phone" required><br><br>
+<div class="bg-white shadow-2xl rounded-2xl p-8 w-full max-w-md">
 
-    <label>Amount (KES):</label><br>
-    <input type="number" id="amount" required><br><br>
+  <div class="text-center mb-6">
+    <h1 class="text-3xl font-bold text-green-700">M-Pesa Donation 💚</h1>
+    <p class="text-gray-500 text-sm">Fast & secure mobile payment</p>
+  </div>
 
-    <button type="submit">Donate</button>
-  </form>
+  <div class="space-y-4">
+    <input id="phone" placeholder="2547XXXXXXXX"
+      class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-400">
 
-  <div id="status" class="status"></div>
+    <input id="amount" type="number" placeholder="Amount (KES)"
+      class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-400">
 
-  <script>
-  const form = document.getElementById("donationForm");
+    <button onclick="simulatePayment('mpesa')"
+      class="w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg shadow-lg">
+      📱 Pay with M-Pesa
+    </button>
+  </div>
+
+  <div id="status" class="mt-6 text-center font-semibold"></div>
+
+</div>
+
+<!-- POPUP -->
+<div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-2xl text-center w-80 animate-bounce shadow-2xl">
+    <div class="text-green-500 text-5xl mb-2">✔</div>
+    <h2 class="text-xl font-bold">Payment Confirmed</h2>
+    <p class="text-gray-500 text-sm mt-2">We have received your donation</p>
+    <p id="ref1" class="text-xs mt-2 text-gray-600"></p>
+
+    <button onclick="closePopup()"
+      class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg w-full">
+      Done
+    </button>
+  </div>
+</div>
+
+<script>
+async function simulatePayment(method) {
+  const phone = document.getElementById("phone").value;
+  const amount = document.getElementById("amount").value;
   const statusDiv = document.getElementById("status");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  if (!phone || !amount) {
+    statusDiv.innerText = "❌ Enter phone and amount";
+    statusDiv.className = "text-red-600";
+    return;
+  }
 
-    const phone = document.getElementById("phone").value.trim();
-    const amount = document.getElementById("amount").value.trim();
+  statusDiv.innerText = "⏳ Processing...";
+  statusDiv.className = "text-yellow-600 animate-pulse";
 
-    // Basic validation
-    if (!phone || !amount) {
-      statusDiv.className = "status error";
-      statusDiv.innerText = "❌ Please enter phone and amount.";
-      return;
-    }
+  await new Promise(r => setTimeout(r, 1200));
 
-    // Show loading
-    statusDiv.className = "status loading";
-    statusDiv.innerText = "⏳ Sending STK push... Check your phone";
+  const res = await fetch("/simulate-payment/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie('csrftoken')
+    },
+    body: JSON.stringify({ phone, amount, method })
+  });
 
-    try {
-      const res = await fetch("/donate/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ phone, amount })
-      });
+  const data = await res.json();
 
-      const data = await res.json();
-      console.log("Full response:", data);
+  showPopup(data.transaction_id);
+}
 
-      // ✅ FIXED: Check correct structure
-      if (data.ResponseCode === "0") {
-        statusDiv.className = "status success";
-        statusDiv.innerText = "✅ STK Push sent! Enter your PIN on your phone.";
-      } else {
-        statusDiv.className = "status error";
-        statusDiv.innerText =
-          "❌ " + (data.ResponseDescription || "Failed to send STK push.");
-      }
+function showPopup(ref) {
+  document.getElementById("ref1").innerText = "Ref: " + ref;
+  document.getElementById("popup").classList.remove("hidden");
+}
 
-    } catch (error) {
-      console.error(error);
-      statusDiv.className = "status error";
-      statusDiv.innerText = "⚠️ Network error. Please try again.";
+function closePopup() {
+  document.getElementById("popup").classList.add("hidden");
+}
+
+function getCookie(name) {
+  let cookieValue = null;
+  document.cookie.split(';').forEach(c => {
+    c = c.trim();
+    if (c.startsWith(name + '=')) {
+      cookieValue = decodeURIComponent(c.substring(name.length + 1));
     }
   });
+  return cookieValue;
+}
 </script>
 
 </body>

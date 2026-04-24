@@ -5,6 +5,7 @@ from django.conf import settings
 from .mpesa import MpesaService
 import json
 import stripe
+import random
 
 
 # 🔑 Stripe Secret Key (replace with your real key later)
@@ -142,3 +143,8 @@ def mpesa_callback(request):
         "ResultCode": 1,
         "ResultDesc": "Method not allowed"
     }, status=405)
+def simulate_payment(request):
+    if request.method == "POST":
+        return JsonResponse({
+            "transaction_id": "SIM{random.randint(100000,999999)}"
+        })

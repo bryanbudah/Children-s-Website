@@ -12,5 +12,7 @@ urlpatterns = [
  # Placeholder for future Donate Online page, 
    path("donate/", views.donate_online, name="donate_online"),# temporary placeholder
     path("create-checkout-session/", views.create_checkout_session),
+        # ✅ ADD THIS (IMPORTANT)
+    path("simulate-payment/", views.simulate_payment, name="simulate_payment"),
 
 ]
