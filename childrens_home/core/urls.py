@@ -2,6 +2,7 @@
 from django.urls import path
 from .views import mpesa_callback, donate
 from . import views
+from .views import upload_image
 
 urlpatterns = [
    path("", views.home, name="home"),
@@ -15,4 +16,5 @@ urlpatterns = [
         # ✅ ADD THIS (IMPORTANT)
     path("simulate-payment/", views.simulate_payment, name="simulate_payment"),
 
+  path("upload/", upload_image, name="upload"),
 ]

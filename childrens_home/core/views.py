@@ -1,19 +1,23 @@
-from django.shortcuts import render
+from django.core.files.storage import default_storage
+from django.shortcuts import render, redirect
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
-from .mpesa import MpesaService
 import json
 import stripe
 import random
 
+from .mpesa import MpesaService
+from .models import TestImage
 
-# 🔑 Stripe Secret Key (replace with your real key later)
+
+# =========================
+# STRIPE KEY
+# =========================
 stripe.api_key = "YOUR_SECRET_KEY"
 
 
 # =========================
-# HOME & PAGES
+# PAGES
 # =========================
 
 def home(request):
@@ -36,23 +40,17 @@ def donate_online(request):
 def donate(request):
     if request.method == "POST":
         try:
-            # Handle JSON requests
             if request.content_type == "application/json":
                 data = json.loads(request.body)
                 phone = data.get("phone")
                 amount = data.get("amount")
             else:
-                # Handle form submissions
                 phone = request.POST.get("phone")
                 amount = request.POST.get("amount")
 
-            # Validation
             if not phone or not amount:
-                return JsonResponse({
-                    "error": "Phone and amount are required"
-                }, status=400)
+                return JsonResponse({"error": "Phone and amount are required"}, status=400)
 
-            # Call M-Pesa service
             response = MpesaService.stk_push(phone, amount)
 
             return JsonResponse({
@@ -61,9 +59,7 @@ def donate(request):
             })
 
         except Exception as e:
-            return JsonResponse({
-                "error": str(e)
-            }, status=500)
+            return JsonResponse({"error": str(e)}, status=500)
 
     elif request.method == "GET":
         return render(request, "donate.html")
@@ -72,7 +68,7 @@ def donate(request):
 
 
 # =========================
-# STRIPE CARD PAYMENT
+# STRIPE PAYMENT
 # =========================
 
 @csrf_exempt
@@ -80,16 +76,14 @@ def create_checkout_session(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            amount = int(data.get("amount")) * 100  # convert to cents
+            amount = int(data.get("amount")) * 100
 
             session = stripe.checkout.Session.create(
                 payment_method_types=["card"],
                 line_items=[{
                     "price_data": {
                         "currency": "usd",
-                        "product_data": {
-                            "name": "Donation",
-                        },
+                        "product_data": {"name": "Donation"},
                         "unit_amount": amount,
                     },
                     "quantity": 1,
@@ -119,14 +113,10 @@ def mpesa_callback(request):
             print(json.dumps(payload, indent=2))
             print("=====================================")
 
-            body = payload.get("Body", {})
-            stk_callback = body.get("stkCallback", {})
+            stk_callback = payload.get("Body", {}).get("stkCallback", {})
 
-            result_code = stk_callback.get("ResultCode")
-            result_desc = stk_callback.get("ResultDesc")
-
-            print("Result Code:", result_code)
-            print("Result Desc:", result_desc)
+            print("Result Code:", stk_callback.get("ResultCode"))
+            print("Result Desc:", stk_callback.get("ResultDesc"))
 
             return JsonResponse({
                 "ResultCode": 0,
@@ -143,8 +133,46 @@ def mpesa_callback(request):
         "ResultCode": 1,
         "ResultDesc": "Method not allowed"
     }, status=405)
+
+
+# =========================
+# TEST PAYMENT
+# =========================
+
 def simulate_payment(request):
     if request.method == "POST":
         return JsonResponse({
-            "transaction_id": "SIM{random.randint(100000,999999)}"
+            "transaction_id": f"SIM{random.randint(100000,999999)}"
         })
+
+    return JsonResponse({"error": "Only POST allowed"}, status=405)
+
+
+# =========================
+# IMAGE UPLOAD (CLOUDINARY TEST)
+# =========================
+
+def upload_image(request):
+    print("STORAGE:", default_storage)
+
+    if request.method == "POST":
+        print("POST DATA:", request.POST)
+        print("FILES:", request.FILES)
+
+        name = request.POST.get("name")
+        image = request.FILES.get("image")
+
+        if not name or not image:
+            return JsonResponse({
+                "error": "Missing name or image",
+                "debug_post": dict(request.POST),
+                "debug_files": str(request.FILES)
+            }, status=400)
+
+        obj = TestImage.objects.create(name=name, image=image)
+
+        return render(request, "upload.html", {
+            "image_url": obj.image.url
+        })
+
+    return render(request, "upload.html")
