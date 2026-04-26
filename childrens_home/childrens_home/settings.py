@@ -16,12 +16,12 @@ load_dotenv(BASE_DIR / ".env")
 # =========================
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-fallback-key-change-me")
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "children-s-website.onrender.com",
+    ".onrender.com",
 ]
 
 
@@ -124,14 +124,13 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = "/media/"
+
 
 # =========================
 # MEDIA / CLOUDINARY FIX (IMPORTANT)
 # =========================
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+
 
 # SAFE INIT (prevents api_key error)
 cloudinary.config(
