@@ -16,7 +16,7 @@ load_dotenv(BASE_DIR / ".env")
 # =========================
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-fallback-key-change-me")
 
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
