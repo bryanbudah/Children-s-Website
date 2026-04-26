@@ -170,6 +170,7 @@ def upload_image(request):
             }, status=400)
 
         obj = TestImage.objects.create(name=name, image=image)
+        print("IMAGE URL:", obj.image.url)
 
         return render(request, "upload.html", {
             "image_url": obj.image.url
