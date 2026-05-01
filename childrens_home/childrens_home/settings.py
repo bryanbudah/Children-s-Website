@@ -122,13 +122,15 @@ USE_TZ = True
 # =========================
 # STATIC FILES
 # =========================
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "core/static",
-]
-STATIC_ROOT = BASE_DIR / "staticfiles"
-MEDIA_URL = "/media/"
+STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "core" / "static",
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # =========================
 # MEDIA / CLOUDINARY FIX (IMPORTANT)
 # =========================
@@ -153,11 +155,10 @@ CLOUDINARY_STORAGE = {
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
-    },
+    }
     
-    "staticfiles": {
-    "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-}
+    
+
    
 }
 
