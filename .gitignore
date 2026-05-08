@@ -8,3 +8,4 @@ venv/
 # Ignore media/uploads (images, files)
 media/
 images/
+staticfiles/staticfiles.json
