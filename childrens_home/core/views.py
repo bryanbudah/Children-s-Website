@@ -177,3 +177,11 @@ def upload_image(request):
         })
 
     return render(request, "upload.html")
+@csrf_exempt
+def simulate_payment(request):
+    if request.method == "POST":
+        return JsonResponse({
+            "transaction_id": f"SIM{random.randint(100000,999999)}"
+        })
+
+    return JsonResponse({"error": "Only POST allowed"}, status=405)
